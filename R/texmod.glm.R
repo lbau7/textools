@@ -1,8 +1,50 @@
-lm.latex.glm <- function(mod, results = c("summary", "Anova"), or = TRUE, log.or = FALSE, 
-  ci = TRUE, ci.level = 0.95, se.log.or = FALSE, vcov = NULL,
-  teststatistic = FALSE, df = TRUE, test = c("LR", "Wald", "F"), 
-  ssq = TRUE, pval = TRUE, intercept = FALSE, title = NULL, 
-  rowlabs = NULL, addref = TRUE, digits = 3, ...) {
+#' LaTeX tables for glm models
+#' 
+#' texmod method for models of class \code{glm}.
+#'
+#' @param mod A model of class \code{glm}.
+#' @template results
+#' @template or 
+#' @template logor
+#' @template ci_or 
+#' @template ci_level 
+#' @template se_logor
+#' @template vcov
+#' @template teststatistic
+#' @template df
+#' @template test_glm
+#' @template ssq_glm
+#' @template pval
+#' @template intercept
+#' @template title_glm
+#' @template n_title
+#' @template rowlabs
+#' @template addref
+#' @template digits
+#' @template dotdotdot
+#'
+#' @details Models of class \code{glm} are currently only supported for 
+#'   logistic regression model.
+#' @export
+#' 
+#' @examples
+#' iris$Sepal.Length <- ifelse(iris$Sepal.Length < median(iris$Sepal.Length), 0, 1)
+#' iris.glm <- glm(Sepal.Length ~ Sepal.Width + Petal.Width + Species, 
+#'   data = iris,
+#'   family = binomial
+#'   )
+#' texmod(iris.glm,
+#'   title = "Logistic Regression for median(Sepal Length)",
+#'   rowlabs = c("Sepal Width", "Petal Width", "Species (versicolor)",
+#'   "Species (setosa)", "Species (virginica)")
+#' )
+texmod.glm <- function(mod, results = c("summary", "Anova"), or = TRUE, 
+                         logor = FALSE, ci = TRUE, ci_level = 0.95, 
+                         se.logor = FALSE, vcov = NULL, teststatistic = FALSE,
+                         df = TRUE, test = c("LR", "Wald", "F"), sq = TRUE, 
+                         pval = TRUE, intercept = FALSE, title = NULL, 
+                         n_title = TRUE, rowlabs = NULL, addref = TRUE, 
+                         digits = 3, ...) {
   results <- match.arg(results)
   dotlist <- list(...)
   
@@ -19,11 +61,11 @@ lm.latex.glm <- function(mod, results = c("summary", "Anova"), or = TRUE, log.or
       coefsm <- coef(summary(mod))
       coefsm <- cbind(exp(coefsm[, 1]), coefsm)
       colnames(coefsm) <- c("Odds Ratio", "log OR", "SE (log OR)", "z-Value", "p-Value")
-      inc.col <- which(c(or, log.or, se.log.or, teststatistic, pval) != 0)
+      inc.col <- which(c(or, logor, se.logor, teststatistic, pval) != 0)
       coefsm <- coefsm[, inc.col, drop = FALSE]
       
       if (ci == TRUE & or == TRUE) {
-        estci <- exp(confint(mod, level = ci.level))
+        estci <- exp(confint(mod, level = ci_level))
         coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
           "Upper CL" = estci[,2 ], coefsm[, -1, drop = FALSE])
       }
@@ -31,11 +73,11 @@ lm.latex.glm <- function(mod, results = c("summary", "Anova"), or = TRUE, log.or
       coefsm <- lmtest::coeftest(mod, vcov = vcov)
       coefsm <- cbind(exp(coefsm[, 1]), coefsm)
       colnames(coefsm) <- c("Odds Ratio", "log OR", "SE (log OR)", "z-Value", "p-Value")
-      inc.col <- which(c(or, log.or, se.log.or, teststatistic, pval) != 0)
+      inc.col <- which(c(or, logor, se.logor, teststatistic, pval) != 0)
       coefsm <- coefsm[, inc.col, drop = FALSE]
       
       if (ci == TRUE & or == TRUE) {
-        estci <- exp(coefci(mod, level = ci.level, vcov = vcov))
+        estci <- exp(coefci(mod, level = ci_level, vcov = vcov))
         coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
           "Upper CL" = estci[,2 ], coefsm[, -1, drop = FALSE])
       }
@@ -106,7 +148,12 @@ lm.latex.glm <- function(mod, results = c("summary", "Anova"), or = TRUE, log.or
   }
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
-  tabcaption <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  if (n_title == TRUE) {
+    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(coefsm, title = tabcaption), arglist.sg))
+  do.call(
+    stargazer::stargazer, 
+    c(list(coefsm, title = title, header = FALSE), arglist.sg)
+  )
 }

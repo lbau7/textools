@@ -1,16 +1,50 @@
-lm.latex.coxph <- function(mod, results = c("summary", "Anova"), hr = TRUE, log.hr = FALSE,
-  ci = TRUE, ci.level = 0.95, se.log.hr = FALSE, 
-  teststatistic = FALSE, df = TRUE, test = c("LR", "Wald"), 
-  pval = TRUE, title = NULL, rowlabs = NULL, addref = TRUE, 
-  digits = 3, ...) {
+#' LaTeX tables for coxph models
+#' 
+#' texmod method for models of class \code{coxph}.
+#'
+#' @param mod A model of class \code{coxph}.
+#' @template results
+#' @template hr
+#' @template loghr
+#' @template ci_hr
+#' @template ci_level
+#' @template se_loghr 
+#' @template teststatistic
+#' @template df
+#' @template test_coxph
+#' @template pval
+#' @template title_cox
+#' @template n_title
+#' @template rowlabs
+#' @template addref
+#' @template digits
+#' @template dotdotdot
+#'
+#' @export
+#' 
+#' @examples
+#' library(survival)
+#' lung.coxph <- coxph(Surv(time, status) ~ age + factor(sex) + meal.cal + ph.karno,
+#'   data = lung)
+#' texmod(lung.coxph,
+#'   title = "Cox Regression for Overall Survival",
+#'   rowlabs = c("Age", "Sex (male)", "Sex (female)", "Meal calories",
+#'     "Karnofsky score (physician)")
+#'  )
+texmod.coxph <- function(mod, results = c("summary", "Anova"), hr = TRUE, 
+                         loghr = FALSE, ci = TRUE, ci_level = 0.95, 
+                         se_loghr = FALSE, teststatistic = FALSE, df = TRUE,
+                         test = c("LR", "Wald"), pval = TRUE, title = NULL, 
+                         n_title = TRUE, rowlabs = NULL, addref = TRUE, 
+                         digits = 3, ...) {
   results <- match.arg(results)
   dotlist <- list(...)
   
   if (results == "summary") {
-    sm <- summary(mod, conf.int = ci.level)
+    sm <- summary(mod, conf.int = ci_level)
     coefsm <- coef(sm)[, c(2, 1, 3:5), drop = FALSE]
     colnames(coefsm) <- c("Hazard Ratio", "log HR", "SE (log HR)", "z-Value", "p-Value")
-    inc.col <- which(c(hr, log.hr, se.log.hr, teststatistic, pval) != 0)
+    inc.col <- which(c(hr, loghr, se_loghr, teststatistic, pval) != 0)
     coefsm <- coefsm[, inc.col, drop = FALSE]
     
     if (ci == TRUE & hr == TRUE) {
@@ -81,7 +115,12 @@ lm.latex.coxph <- function(mod, results = c("summary", "Anova"), hr = TRUE, log.
   }
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
-  tabcaption <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  if (n_title == TRUE) {
+    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(coefsm, title = tabcaption), arglist.sg))
+  do.call(
+    stargazer::stargazer, 
+    c(list(coefsm, title = title, header = FALSE), arglist.sg)
+  )
 }

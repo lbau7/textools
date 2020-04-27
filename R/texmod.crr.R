@@ -1,6 +1,26 @@
-lm.latex.crr <- function(mod, hr = TRUE, log.hr = FALSE, ci = TRUE, ci.level = 0.95,
-  se.log.hr = FALSE, teststatistic = FALSE, pval = TRUE,
-  title = NULL, rowlabs = NULL, digits = 3, ...) {
+#' LaTeX tables for crr models
+#' 
+#' texmod method for models of class \code{crr}.
+#'
+#' @param mod A model of class \code{crr}.
+#' @template hr 
+#' @template loghr 
+#' @template ci_hr 
+#' @template ci_level 
+#' @template se_loghr 
+#' @template teststatistic 
+#' @template pval 
+#' @template title_crr
+#' @template rowlabs
+#' @template digits
+#' @template dotdotdot
+#'
+#' @export
+texmod.crr <- function(mod, hr = TRUE, loghr = FALSE, ci = TRUE, 
+                       ci_level = 0.95, se_loghr = FALSE, 
+                       teststatistic = FALSE, pval = TRUE,
+                       title = NULL, rowlabs = NULL, digits = 3,
+                       ...) {
   dotlist <- list(...)
   
   if (is.null(rowlabs)) rowlabs <- rownames(summary(mod)$coef)
@@ -8,7 +28,7 @@ lm.latex.crr <- function(mod, hr = TRUE, log.hr = FALSE, ci = TRUE, ci.level = 0
   colnames(coefsm) <- c("Hazard Ratio", "log HR", "SE (log HR)", "z-Value", "p-Value")
   rownames(coefsm) <- rowlabs
   
-  inc.col <- which(c(hr, log.hr, se.log.hr, teststatistic, pval) != 0)
+  inc.col <- which(c(hr, loghr, se_loghr, teststatistic, pval) != 0)
   coefsm <- coefsm[, inc.col, drop = FALSE]
   
   if (ci == TRUE & hr == TRUE) {
@@ -18,7 +38,7 @@ lm.latex.crr <- function(mod, hr = TRUE, log.hr = FALSE, ci = TRUE, ci.level = 0
       coefsm[, -1, drop = FALSE])
   }
   
-  if (is.null(title)) title <- "Competing Risk Regression"
+  if (is.null(title)) title <- "Competing Risks Regression"
   
   if (pval == TRUE) highsig <- which(coefsm[, ncol(coefsm)] < 0.001)
   coefsm <- round(coefsm, digits = digits)

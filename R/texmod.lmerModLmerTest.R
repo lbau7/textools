@@ -1,23 +1,54 @@
-lm.latex.lmerMod <- function(mod, results = c("summary", "Anova"), estimate = TRUE, 
-  ci = TRUE, ci.level = 0.95, se = FALSE, teststatistic = FALSE, 
-  df = TRUE, df.res = TRUE, test = c("Chisq", "F"), pval = TRUE,
-  intercept = FALSE, title = NULL, rowlabs = NULL, addref = TRUE, 
-  digits = 3, ...) {
+#' LaTeX tables for lmerModLmerTest models
+#' 
+#' texmod method for models of class \code{lmerModLmerTest}.
+#'
+#' @param A model of class \code{lmerModLmerTest}.
+#' @template results
+#' @template estimate_mixed
+#' @template ci_linear
+#' @template ci_level 
+#' @template se_linear
+#' @template teststatistic 
+#' @template df_lmer
+#' @template df_res 
+#' @template test_lmer
+#' @template pval
+#' @template intercept
+#' @template title_mixed
+#' @template n_title
+#' @template rowlabs
+#' @template addref
+#' @template digits
+#' @template dotdotdot
+#' 
+#' @details If \code{pval = TRUE} then the package lmerTest is called.
+#' @export
+#'
+#' @examples
+#' bdf.lmerMod <- lmerTest::lmer(IQ.verb ~ sex + aritPOST + denomina + 
+#'   Minority + (1|schoolNR), data = nlme::bdf)
+#' texmod(bdf.lmerMod,
+#'   title = "Mixed Model Regression for Verbal IQ",
+#'   rowlabs = c("Sex (female)", "Sex (male)", "Arit (post)", 
+#'     "School (public)", "School (protestant)", "School (catholic)", 
+#'     "School (private)", "Minority (no)", "Minority (yes)")
+#' )
+texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"), 
+                                   estimate = TRUE, ci = TRUE, 
+                                   ci.level = 0.95, se = FALSE, 
+                                   teststatistic = FALSE, df = TRUE,  
+                                   df.res = TRUE, test = c("Chisq", "F"), 
+                                   pval = TRUE, intercept = FALSE,
+                                   title = NULL, n_title = TRUE, rowlabs = NULL, 
+                                   addref = TRUE, digits = 3, ...) {
   results <- match.arg(results)
   dotlist <- list(...)
   
   if (results == "summary") {
-    if (pval == TRUE) {
-      coefsm <- coef(summary(lmerTest::lmer(eval(mod@call[[2]]), data = eval(mod@call[[3]]))))
-      colnames(coefsm) <- c("Estimate", "Std.Error", "df", "t-Value", "p-Value")
-      inc.col <- which(c(estimate, se, df, teststatistic, pval) != 0)
-      coefsm <- coefsm[, inc.col, drop = FALSE]
-    } else {
-      coefsm <- coef(summary(mod))
-      colnames(coefsm) <- c("Estimate", "Std.Error", "t-Value")
-      inc.col <- which(c(estimate, se, teststatistic) != 0)
-      coefsm <- coefsm[, inc.col, drop = FALSE]
-    }
+    coefsm <- coef(summary(mod))
+    colnames(coefsm) <- c("Estimate", "Std.Error", "df", "t-Value", "p-Value")
+    inc.col <- which(c(estimate, se, df, teststatistic, pval) != 0)
+    coefsm <- coefsm[, inc.col, drop = FALSE]
     
     if (ci == TRUE & estimate == TRUE) {
       arglist.ci <- dotlist[names(dotlist) %in% c("method", "boot.type")]
@@ -48,7 +79,7 @@ lm.latex.lmerMod <- function(mod, results = c("summary", "Anova"), estimate = TR
   }
   if (pval == TRUE) highsig <- which(coefsm[, ncol(coefsm)] < 0.001)
   coefsm <- round(coefsm, digits = digits)
-  if (df == TRUE & pval == TRUE) coefsm[, "df"] <- round(coefsm[, "df"], 1)
+  if (df == TRUE) coefsm[, "df"] <- round(coefsm[, "df"], 1)
   if (pval == TRUE) coefsm[highsig, ncol(coefsm)] <- "<0.001"
   
   if (results == "summary" & addref == TRUE) {
@@ -88,7 +119,12 @@ lm.latex.lmerMod <- function(mod, results = c("summary", "Anova"), estimate = TR
   }  
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
-  tabcaption <- paste0(title, " (n = ", nrow(mod@frame), ")")
+  if (n_title == TRUE) {
+    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(coefsm, title = tabcaption), arglist.sg))
+  do.call(
+    stargazer::stargazer, 
+    c(list(coefsm, title = title, header = FALSE), arglist.sg)
+  )
 }

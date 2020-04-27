@@ -1,9 +1,42 @@
-lm.latex.lmerModLmerTest <- function(mod, results = c("summary", "Anova"), estimate = TRUE, 
-  ci = TRUE, ci.level = 0.95, se = FALSE, 
-  teststatistic = FALSE, df = TRUE,  df.res = TRUE, 
-  test = c("Chisq", "F"), pval = TRUE, intercept = FALSE,
-  title = NULL, rowlabs = NULL, addref = TRUE,
-  digits = 3, ...) {
+#' LaTeX tables for lme models
+#' 
+#' texmod method for models of class \code{lme}.
+#'
+#' @param mod A model of class \code{lme}.
+#' @template results
+#' @template estimate_mixed
+#' @template ci_linear
+#' @template ci_level
+#' @template se_linear
+#' @template teststatistic
+#' @template df
+#' @template pval
+#' @template intercept
+#' @template title_mixed
+#' @template n_title
+#' @template rowlabs 
+#' @template addref 
+#' @template digits 
+#' @template dotdotdot 
+#'
+#' @export
+#'
+#' @examples
+#' library(nlme)
+#' bdf.lme <- nlme::lme(IQ.verb ~ sex + aritPOST + denomina + Minority,
+#'   random = ~1|schoolNR,
+#'   data = nlme::bdf)
+#' texmod(bdf.lme,
+#'   title = "Mixed Model Regression for Verbal IQ",
+#'   rowlabs = c("Sex (female)", "Sex (male)", "Arit (post)", 
+#'     "School (public)", "School (protestant)", "School (catholic)",
+#'     "School (private)", "Minority (no)", "Minority (yes)")
+#' )
+texmod.lme <- function(mod, results = c("summary", "Anova"), estimate = TRUE, 
+                       ci = TRUE, ci_level = 0.95, se = FALSE, 
+                       teststatistic = FALSE, df = TRUE, pval = TRUE, 
+                       intercept = FALSE, title = NULL, n_title = TRUE, 
+                       rowlabs = NULL, addref = TRUE, digits = 3, ...) {
   results <- match.arg(results)
   dotlist <- list(...)
   
@@ -14,11 +47,9 @@ lm.latex.lmerModLmerTest <- function(mod, results = c("summary", "Anova"), estim
     coefsm <- coefsm[, inc.col, drop = FALSE]
     
     if (ci == TRUE & estimate == TRUE) {
-      arglist.ci <- dotlist[names(dotlist) %in% c("method", "boot.type")]
-      estci <- do.call(confint, c(list(mod, level = ci.level), arglist.ci))
-      estci <- estci[(nrow(estci) - nrow(coefsm) + 1):nrow(estci), , drop = FALSE]
-      coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
-        "Upper CL" = estci[, 2], coefsm[, -1, drop = FALSE])
+      estci <- intervals(mod, level = ci_level)$fixed
+      coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1],
+        "Upper CL" = estci[, 3], coefsm[, -1, drop = FALSE])
     }
     
     if (intercept == FALSE) coefsm <- coefsm[-1, , drop = FALSE]
@@ -26,27 +57,20 @@ lm.latex.lmerModLmerTest <- function(mod, results = c("summary", "Anova"), estim
   }
   
   if (results == "Anova") {
-    test <- match.arg(test)
-    coefsm <- as.matrix(car::Anova(mod, test.statistic = test, ...))
-    
-    if (test == "Chisq") {
-      colnames(coefsm) <- c("Chisq", "df", "p-Value")
-      inc.col <- which(c(teststatistic, df, pval) != 0)
-      coefsm <- coefsm[, inc.col, drop = FALSE]
-    } else if (test == "F") {
-      colnames(coefsm) <- c("F-Value", "df", "df Residuals", "p-Value")
-      inc.col <- which(c(teststatistic, df, df.res, pval) != 0)
-      coefsm <- coefsm[, inc.col, drop = FALSE]
-    }
+    coefsm <- as.matrix(car::Anova(mod, ...))
+    colnames(coefsm) <- c("Chisq", "df", "p-Value")
+    inc.col <- which(c(teststatistic, df, pval) != 0)
+    coefsm <- coefsm[, inc.col, drop = FALSE]
     if (is.null(title)) title <- "Mixed Model Analysis of Variance"
   }
+  
   if (pval == TRUE) highsig <- which(coefsm[, ncol(coefsm)] < 0.001)
   coefsm <- round(coefsm, digits = digits)
-  if (df == TRUE) coefsm[, "df"] <- round(coefsm[, "df"], 1)
   if (pval == TRUE) coefsm[highsig, ncol(coefsm)] <- "<0.001"
   
   if (results == "summary" & addref == TRUE) {
-    modframe <- mod@frame[, -c(1, ncol(mod@frame)), drop = FALSE]
+    nameselect <- names(mod$fixDF$terms)[-1]
+    modframe <- mod$data[, nameselect, drop = FALSE]
     facrows <- sapply(modframe, class)
     facrows <- sapply(facrows, function(x) x[[1]])
     facrows <- facrows %in% c("factor", "ordered")
@@ -79,10 +103,15 @@ lm.latex.lmerModLmerTest <- function(mod, results = c("summary", "Anova"), estim
       }
       j <- j + 1
     }
-  }  
+  }
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
-  tabcaption <- paste0(title, " (n = ", nrow(mod@frame), ")")
+  if (n_title == TRUE) {
+    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(coefsm, title = tabcaption), arglist.sg))
+  do.call(
+    stargazer::stargazer, 
+    c(list(coefsm, title = title, header = FALSE), arglist.sg)
+  )
 }

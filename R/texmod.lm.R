@@ -1,7 +1,40 @@
-lm.latex.lm <- function(mod, results = c("summary", "Anova"), estimate = TRUE, ci = TRUE, 
-  ci.level = 0.95, se = FALSE, vcov = NULL, teststatistic = FALSE, 
-  ssq = TRUE, df = TRUE, pval = TRUE, intercept = FALSE, title = NULL, 
-  rowlabs = NULL, addref = TRUE, digits = 3, ...) {
+#' LaTeX tables for lm models
+#' 
+#' texmod method for models of class \code{lm}.
+#'
+#' @param mod A model of class \code{lm}.
+#' @template results 
+#' @template estimate
+#' @template ci_linear
+#' @template ci_level 
+#' @template se_linear
+#' @template vcov 
+#' @template teststatistic
+#' @template ssq
+#' @template df
+#' @template pval
+#' @template intercept
+#' @template title
+#' @template n_title
+#' @template rowlabs
+#' @template addref
+#' @template digits
+#' @template dotdotdot
+#'
+#' @export
+#' 
+#' @examples
+#' iris.lm <- lm(Sepal.Length ~ Sepal.Width + Petal.Width + Species, data = iris)
+#' texmod(iris.lm,
+#'   title = "Linear Model for Sepal Length",
+#'   rowlabs = c("Sepal Width", "Petal Width", "Species (versicolor)",
+#'     "Species (setosa)", "Species (virginica)")
+#' )
+texmod.lm <- function(mod, results = c("summary", "Anova"), estimate = TRUE, 
+                      ci = TRUE, ci_level = 0.95, se = FALSE, vcov = NULL, 
+                      teststatistic = FALSE, ssq = TRUE, df = TRUE, pval = TRUE, 
+                      intercept = FALSE, title = NULL, n_title = TRUE, 
+                      rowlabs = NULL, addref = TRUE, digits = 3, ...) {
   results <- match.arg(results)
   dotlist <- list(...)
   
@@ -13,7 +46,7 @@ lm.latex.lm <- function(mod, results = c("summary", "Anova"), estimate = TRUE, c
       coefsm <- coefsm[, inc.col, drop = FALSE]
       
       if (ci == TRUE & estimate == TRUE) {
-        estci <- confint(mod, level = ci.level)
+        estci <- confint(mod, level = ci_level)
         coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
           "Upper CL" = estci[, 2], coefsm[, -1, drop = FALSE])
       }
@@ -24,7 +57,7 @@ lm.latex.lm <- function(mod, results = c("summary", "Anova"), estimate = TRUE, c
       coefsm <- coefsm[, inc.col, drop = FALSE]
       
       if (ci == TRUE & estimate == TRUE) {
-        estci <- coefci(mod, level = ci.level, vcov = vcov)
+        estci <- coefci(mod, level = ci_level, vcov = vcov)
         coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
           "Upper CL" = estci[, 2], coefsm[, -1, drop = FALSE])
       }
@@ -39,7 +72,7 @@ lm.latex.lm <- function(mod, results = c("summary", "Anova"), estimate = TRUE, c
     coefsm <- coefsm[-nrow(coefsm), , drop = FALSE]
     colnames(coefsm) <- c("Sum Sq", "df", "F-Value", "p-Value")
     inc.col <- which(c(ssq, df, teststatistic, pval) != 0)
-    coefsm <- coefsm[, inc.col, drop=F]
+    coefsm <- coefsm[, inc.col, drop = FALSE]
     if (is.null(title)) title <- "Analysis of Variance"
   }
   
@@ -83,7 +116,12 @@ lm.latex.lm <- function(mod, results = c("summary", "Anova"), estimate = TRUE, c
   }
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
-  tabcaption <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  if (n_title == TRUE) {
+    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(coefsm, title = tabcaption), arglist.sg))
+  do.call(
+    stargazer::stargazer, 
+    c(list(coefsm, title = title, header = FALSE), arglist.sg)
+  )
 }

@@ -1,8 +1,46 @@
-lm.latex.glmerMod <- function(mod, results = c("summary", "Anova"), or = TRUE, 
-  log.or = FALSE, ci = TRUE, ci.level = 0.95, 
-  se.log.or = FALSE, teststatistic = FALSE, df = TRUE, 
-  pval = TRUE, intercept = FALSE, title = NULL, 
-  rowlabs = NULL, addref = TRUE, digits = 3, ...) {
+#' LaTeX tables for glmerMod models
+#' 
+#' texmod method for models of class \code{glmerMod}.
+#'
+#' @param mod A model of class \code{glmerMod}.
+#' @template results 
+#' @template or 
+#' @template logor 
+#' @template ci_or 
+#' @template ci_level 
+#' @template se_logor 
+#' @template teststatistic 
+#' @template df 
+#' @template pval 
+#' @template intercept 
+#' @template title_glmmixed 
+#' @template n_title
+#' @template rowlabs 
+#' @template addref 
+#' @template digits 
+#' @template dotdotdot 
+#'
+#' @details Models of class \code{glmerMod} are currently only supported for 
+#'   logistic mixed model regressions.
+#' @export
+#'
+#' @examples
+#' bdf <- nlme::bdf
+#' bdf$IQ.verb <- ifelse(bdf$IQ.verb < median(bdf$IQ.verb), 0, 1)
+#' bdf.glmerMod <- glmer(IQ.verb ~ sex + aritPOST + Minority +
+#'    (1|schoolNR), data = bdf, family = "binomial")
+#' texmod(bdf.glmerMod,
+#'   method = "Wald",
+#'   title = "Logistic Mixed Model Regression for Verbal IQ",
+#'   rowlabs = c("Sex (female)", "Sex (male)", "Arit (post)",
+#'     "Minority (no)", "Minority (yes)")
+#' )
+texmod.glmerMod <- function(mod, results = c("summary", "Anova"), or = TRUE, 
+                            logor = FALSE, ci = TRUE, ci_level = 0.95, 
+                            se_logor = FALSE, teststatistic = FALSE, 
+                            df = TRUE, pval = TRUE, intercept = FALSE, 
+                            title = NULL, n_title = TRUE, rowlabs = NULL, 
+                            addref = TRUE, digits = 3, ...) {
   results <- match.arg(results)
   dotlist <- list(...)
   
@@ -18,12 +56,12 @@ lm.latex.glmerMod <- function(mod, results = c("summary", "Anova"), or = TRUE,
     coefsm <- coef(summary(mod))
     coefsm <- cbind(exp(coefsm[, 1]), coefsm)
     colnames(coefsm) <- c("Odds Ratios", "log OR", "SE (log OR)", "z-Value", "p-Value")
-    inc.col <- which(c(or, log.or, se.log.or, teststatistic, pval) != 0)
+    inc.col <- which(c(or, logor, se_logor, teststatistic, pval) != 0)
     coefsm <- coefsm[, inc.col, drop = FALSE]
     
     if (ci == TRUE & or == TRUE) {
       arglist.ci <- dotlist[names(dotlist) %in% c("method", "boot.type")]
-      estci <- do.call(confint, c(list(mod, level = ci.level), arglist.ci))
+      estci <- do.call(confint, c(list(mod, level = ci_level), arglist.ci))
       estci <- exp(estci)
       estci <- estci[(nrow(estci) - nrow(coefsm) + 1):nrow(estci), , drop = FALSE]
       coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
@@ -84,7 +122,12 @@ lm.latex.glmerMod <- function(mod, results = c("summary", "Anova"), or = TRUE,
   }  
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
-  tabcaption <- paste0(title, " (n = ", nrow(mod@frame), ")")
+  if (n_title == TRUE) {
+    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+  }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(coefsm, title = tabcaption), arglist.sg))
+  do.call(
+    stargazer::stargazer,
+    c(list(coefsm, title = title, header = FALSE), arglist.sg)
+  )
 }
