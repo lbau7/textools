@@ -41,7 +41,7 @@ should be displayed if \code{results = "summary"}.}
 \item{pval}{Whether the p-values should be displayed.}
 
 \item{title}{Title that is used as the caption of the LaTeX table. 
-If title is NULL then the caption is ”Competing Risks Regression".}
+If \code{title = NULL} then the caption is ”Competing Risks Regression".}
 
 \item{rowlabs}{A vector for the names of the rows in LaTeX table. 
 If rowlabs is NULL then the rownames that are shown in the output 

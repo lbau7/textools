@@ -39,7 +39,7 @@ if \code{results = "Anova"}.}
 \item{pval}{Whether the p-values should be displayed.}
 
 \item{title}{Title that is used as the caption of the LaTeX table. 
-If title is NULL then the caption is ”Analysis of Variance”.}
+If \code{title = NULL} then the caption is ”Analysis of Variance”.}
 
 \item{n_title}{Wheter the sample size that was used to compute the model should
 be added to the caption of the table.}

@@ -12,6 +12,6 @@ texmod(mod, ...)
 \item{...}{Further optional arguments.}
 }
 \description{
-texmod is a generic function that is used to create LaTeX tables
+texmod is a generic function that creates LaTeX tables
 for various regression models.
 }

@@ -55,7 +55,7 @@ Either \code{"LR"} or \code{"Wald"}.}
 \item{pval}{Whether the p-values should be displayed.}
 
 \item{title}{Title that is used as the caption of the LaTeX table. 
-If title is NULL then the caption is ”Cox Regression” if 
+If \code{title = NULL} then the caption is ”Cox Regression” if 
 \code{results = "summary"} and ”Cox Analysis of Variance” if 
 \code{results = "Anova"}.}
 

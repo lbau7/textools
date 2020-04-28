@@ -1,6 +1,6 @@
 #' LaTeX tables for regression models
 #' 
-#' texmod is a generic function that is used to create LaTeX tables
+#' texmod is a generic function that creates LaTeX tables
 #' for various regression models.
 #'
 #' @param mod A model object for which a LaTeX table should created.

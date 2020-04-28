@@ -52,7 +52,7 @@ displayed if \code{results = "summary"}.}
 displayed if \code{results = "summary"}.}
 
 \item{title}{Title that is used as the caption of the LaTeX table. 
-If title is NULL then the caption is ”Mixed Model Regression” if 
+If \code{title = NULL} then the caption is ”Mixed Model Regression” if 
 \code{results = "summary"} and ”Mixed Model Analysis of Variance” 
 if \code{results = "Anova"}.}
 
