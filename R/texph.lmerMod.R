@@ -3,25 +3,41 @@
 #' texph method for models of class \code{lmerMod}.
 #'
 #' @param mod A model of class \code{lmerMod}.
-#' @param variable 
-#' @param pairwise 
-#' @param estimate 
-#' @param se 
-#' @param df 
-#' @param teststatistic 
-#' @param pval 
-#' @param ci 
-#' @param ci_level 
-#' @param title 
-#' @param varlab 
-#' @param rowlabs 
-#' @param digits 
-#' @param ... 
+#' @template variable
+#' @template pairwise
+#' @template estimate_ph
+#' @template se_ph 
+#' @template df_ph
+#' @template teststatistic_ph 
+#' @template pval_ph 
+#' @template ci_ph 
+#' @template ci_level 
+#' @template title_ph 
+#' @template varlab 
+#' @template rowlabs 
+#' @template digits 
+#' @template dotdotdot 
 #'
 #' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @export
 #'
 #' @examples
+#' bdf.lmerMod <- lme4::lmer(IQ.verb ~ sex + aritPOST + denomina + 
+#'   Minority + (1|schoolNR),
+#'   data = bdf)
+#' texph(bdf.lmerMod,
+#'   variable = "denomina",
+#'   rowlabs = c("Public - Protestant", "Public - Catholic", "Public - Private",
+#'     "Protestant - Catholic", "Protestant - Private", "Catholic - Private"),
+#'   title = "Pairwise Comparisons for Verbal IQ"
+#' )
+#' 
+#' texph(bdf.lmerMod,
+#'   variable = "denomina",
+#'   pairwise = FALSE,
+#'   varlab = "Denomina",
+#'   title = "EM Means for Verbal IQ"
+#' )
 texph.lmerMod <- function(mod, variable, pairwise = TRUE, estimate = TRUE, 
                           se = FALSE, df = TRUE, teststatistic = FALSE, 
                           pval = TRUE, ci = TRUE, ci_level = 0.95, title = NULL, 

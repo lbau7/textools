@@ -18,6 +18,7 @@
 #' @template digits
 #' @template dotdotdot
 #'
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @details The method for the multiple comparison adjustments for 
 #'   both the p-values and the confidence intervals (only for pairwise 
 #'   comparisons) can be changed by passing the \code{adjust} argument of 

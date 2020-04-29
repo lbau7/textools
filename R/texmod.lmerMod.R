@@ -21,6 +21,7 @@
 #' @template digits
 #' @template dotdotdot
 #' 
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @details If \code{pval = TRUE} then the package lmerTest is called.
 #' @export
 #'

@@ -17,6 +17,7 @@
 #' @template digits
 #' @template dotdotdot
 #'
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @details If \code{ci = TRUE} the displayed confidence intervals 
 #'   are Wald-type confidence intervals.
 #' @export

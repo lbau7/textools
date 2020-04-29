@@ -3,24 +3,45 @@
 #' texph method for models of class \code{glmerMod}.
 #'
 #' @param mod A model of class \code{glmerMod}.
-#' @param variable 
-#' @param pairwise 
-#' @param estimate 
-#' @param se 
-#' @param teststatistic 
-#' @param pval 
-#' @param ci 
-#' @param ci_level 
-#' @param title 
-#' @param varlab 
-#' @param rowlabs 
-#' @param digits 
-#' @param ... 
+#' @template variable_or 
+#' @template pairwise_or 
+#' @template estimate_ph_or 
+#' @template se_ph
+#' @template teststatistic_ph 
+#' @template pval_ph 
+#' @template ci_ph 
+#' @template ci_level 
+#' @template title_ph_or 
+#' @template varlab 
+#' @template rowlabs 
+#' @template digits 
+#' @template dotdotdot 
 #'
-#' @return
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @export
 #'
 #' @examples
+#' bdf <- nlme::bdf
+#' bdf$IQ.verb <- ifelse(bdf$IQ.verb < median(bdf$IQ.verb), 0, 1)
+#' bdf.glmerMod <- lme4::glmer(IQ.verb ~ sex + aritPOST + denomina +
+#'   (1|schoolNR), 
+#'   data = bdf, 
+#'   family = "binomial"
+#' )
+#' texph(bdf.glmerMod,
+#'   variable = "denomina",
+#'   rowlabs = c("Public / Protestant", "Public / Catholic", "Public / Private",
+#'     "Protestant / Catholic", "Protestant / Private", "Catholic / Private"),
+#'   title = "Pairwise Odds Ratios for median(Verbal IQ)"
+#' )
+#' 
+#' texph(bdf.glmerMod,
+#'   variable = "denomina",
+#'   pairwise = FALSE,
+#'   varlab = "Denomina",
+#'   rowlabs = c("Public", "Protestant", "Catholic", "Private"),
+#'  title = "EM Probabilities for median(Verbal IQ)"
+#' )
 texph.glmerMod <- function(mod, variable, pairwise = TRUE, estimate = TRUE,
                            se = FALSE, teststatistic = FALSE, pval = TRUE,
                            ci = TRUE, ci_level = 0.95, title = NULL, 

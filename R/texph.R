@@ -6,6 +6,7 @@
 #' @param mod A model object for which a LaTeX table should created.
 #' @template dotdotdot
 #'
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @export
 texph <- function(mod, ...) {
   UseMethod("texph", mod)

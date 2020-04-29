@@ -15,6 +15,7 @@
 #' @template digits
 #' @template dotdotdot
 #'
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @export
 texmod.crr <- function(mod, hr = TRUE, loghr = FALSE, ci = TRUE, 
                        ci_level = 0.95, se_loghr = FALSE, 

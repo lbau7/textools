@@ -20,6 +20,7 @@
 #' @template digits 
 #' @template dotdotdot 
 #'
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @details Models of class \code{glmerMod} are currently only supported for 
 #'   logistic mixed model regressions.
 #' @export

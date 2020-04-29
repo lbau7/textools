@@ -23,6 +23,7 @@
 #' @template digits
 #' @template dotdotdot
 #'
+#' @return \code{texph} uses \code{stargazer} to return LaTeX code for a table.
 #' @details Models of class \code{glm} are currently only supported for 
 #'   logistic regression model.
 #' @export
