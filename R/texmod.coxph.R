@@ -24,9 +24,9 @@
 #' @export
 #' 
 #' @examples
-#' library(survival)
-#' lung.coxph <- coxph(Surv(time, status) ~ age + factor(sex) + meal.cal + ph.karno,
-#'   data = lung)
+#' lung <- survival::lung
+#' lung.coxph <- survival::coxph(Surv(time, status) ~ age + factor(sex) + 
+#'   meal.cal + ph.karno, data = lung)
 #' texmod(lung.coxph,
 #'   title = "Cox Regression for Overall Survival",
 #'   rowlabs = c("Age", "Sex (male)", "Sex (female)", "Meal calories",

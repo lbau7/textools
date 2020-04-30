@@ -71,6 +71,9 @@ of \code{summary} or \code{Anova} are use.}
 
 \item{...}{Further optional arguments.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texph method for models of class \code{glm}.
 }

@@ -24,35 +24,79 @@
 \arguments{
 \item{mod}{A model of class \code{glmerMod}.}
 
-\item{variable}{}
+\item{variable}{The variable for which the pairwise odds ratios or 
+the estimated marginal probabilities should be computed. Has to be 
+a character.}
 
-\item{pairwise}{}
+\item{pairwise}{Whether pairwise odds ratios between all levels
+of the variable or the estimated marginal probabilities for each
+level of the variable should be displayed.}
 
-\item{estimate}{}
+\item{estimate}{Whether the estimate (corresponding to the estimated odds
+ratios between the levels if \code{pairwise = TRUE} and the estimated 
+marginal probabilities if \code{pairwise = FALSE}) should be displayed.}
 
-\item{se}{}
+\item{se}{Whether the standard errors of the estimates should be
+displayed.}
 
-\item{teststatistic}{}
+\item{teststatistic}{Whether the test statistic should be displayed if
+\code{pairwise = TRUE}.}
 
-\item{pval}{}
+\item{pval}{Whether the p-values should be displayed if 
+\code{pairwise = TRUE}. Note that the p-values are adjusted for
+multiple testing. The default adjustment method is Tukey’s method.}
 
-\item{ci}{}
+\item{ci}{Whether confidence intervals for the estimates should be 
+displayed. If \code{pairwise = TRUE} the confidence intervals are
+simultaneous and the default adjustment method is Tukey’s method. 
+If \code{pairwise = FALSE} the confidence intervals are not 
+simultaneous.}
 
-\item{ci_level}{}
+\item{ci_level}{Level for the confidence intervals.}
 
-\item{title}{}
+\item{title}{Title that is used as the caption of the LaTeX table. 
+If title is NULL then the caption is ”Pairwise Odds Ratios” if 
+\code{pairwise = TRUE} and ”EM Probabilities” if 
+\code{pairwise = FALSE}.}
 
-\item{varlab}{}
+\item{varlab}{The column label for the levels of \code{variable} if 
+\code{pairwise = FALSE}. If \code{varlab = NULL} then the name of 
+\code{variable} is used.}
 
-\item{rowlabs}{}
+\item{rowlabs}{A vector for the names of the rows in LaTeX table. 
+If rowlabs is NULL then the rownames that are shown in the output 
+of \code{summary} or \code{Anova} are use.}
 
-\item{digits}{}
+\item{digits}{Number of digits that are displayed in the LaTeX tables.}
 
-\item{...}{}
+\item{...}{Further optional arguments.}
 }
 \value{
-
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
 }
 \description{
 texph method for models of class \code{glmerMod}.
+}
+\examples{
+bdf <- nlme::bdf
+bdf$IQ.verb <- ifelse(bdf$IQ.verb < median(bdf$IQ.verb), 0, 1)
+bdf.glmerMod <- lme4::glmer(IQ.verb ~ sex + aritPOST + denomina +
+  (1|schoolNR), 
+  data = bdf, 
+  family = "binomial"
+)
+texph(bdf.glmerMod,
+  variable = "denomina",
+  rowlabs = c("Public / Protestant", "Public / Catholic", "Public / Private",
+    "Protestant / Catholic", "Protestant / Private", "Catholic / Private"),
+  title = "Pairwise Odds Ratios for median(Verbal IQ)"
+)
+
+texph(bdf.glmerMod,
+  variable = "denomina",
+  pairwise = FALSE,
+  varlab = "Denomina",
+  rowlabs = c("Public", "Protestant", "Catholic", "Private"),
+ title = "EM Probabilities for median(Verbal IQ)"
+)
 }

@@ -11,6 +11,9 @@ texmod(mod, ...)
 
 \item{...}{Further optional arguments.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texmod is a generic function that creates LaTeX tables
 for various regression models.

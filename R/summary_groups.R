@@ -7,12 +7,12 @@
 #' @param groups A group variable. 
 #' @param sum.all Whether a summary over all groups should be added.
 #' @template rowlabs
-#' @variable tex Whether the output should be TeX code. 
+#' @param tex Whether the output should be TeX code. 
 #' @template title_descr
 #' @template digits
 #' @template dotdotdot
 #'
-#' @returnuses \code{summary_groupss} uses \code{stargazer} to return 
+#' @return \code{summary_groupss} uses \code{stargazer} to return 
 #'   LaTeX code for a table.
 #' @export
 summary_groupss <- function(x, groups, sum.all = TRUE, rowlabs = NULL, 

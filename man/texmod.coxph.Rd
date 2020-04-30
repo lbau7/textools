@@ -73,16 +73,9 @@ should be displayed if \code{results = "summary"}.}
 
 \item{...}{Further optional arguments.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texmod method for models of class \code{coxph}.
-}
-\examples{
-library(survival)
-lung.coxph <- coxph(Surv(time, status) ~ age + factor(sex) + meal.cal + ph.karno,
-  data = lung)
-texmod(lung.coxph,
-  title = "Cox Regression for Overall Survival",
-  rowlabs = c("Age", "Sex (male)", "Sex (female)", "Meal calories",
-    "Karnofsky score (physician)")
- )
 }

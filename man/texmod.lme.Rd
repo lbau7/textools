@@ -70,6 +70,9 @@ should be displayed if \code{results = "summary"}.}
 
 \item{...}{Further optional arguments.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texmod method for models of class \code{lme}.
 }

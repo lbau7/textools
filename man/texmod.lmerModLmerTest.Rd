@@ -79,6 +79,9 @@ should be displayed if \code{results = "summary"}.}
 \item{df_res}{Whether degrees of freedom residuals should be displayed if 
 \code{results = "Anova"} and \code{test = "F"}.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texmod method for models of class \code{lmerModLmerTest}.
 }

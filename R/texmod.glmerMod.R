@@ -28,7 +28,7 @@
 #' @examples
 #' bdf <- nlme::bdf
 #' bdf$IQ.verb <- ifelse(bdf$IQ.verb < median(bdf$IQ.verb), 0, 1)
-#' bdf.glmerMod <- glmer(IQ.verb ~ sex + aritPOST + Minority +
+#' bdf.glmerMod <- lme4::glmer(IQ.verb ~ sex + aritPOST + Minority +
 #'    (1|schoolNR), data = bdf, family = "binomial")
 #' texmod(bdf.glmerMod,
 #'   method = "Wald",

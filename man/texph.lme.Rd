@@ -83,14 +83,14 @@ texph method for models of class \code{lme}.
 bdf.lme <- lme(IQ.verb ~ sex + aritPOST + denomina + Minority,
   random = ~1|schoolNR,
   data = bdf)
-ph.latex(bdf.lme,
+texph(bdf.lme,
   variable = "denomina",
   rowlabs = c("Public - Protestant", "Public - Catholic", "Public - Private",
     "Protestant - Catholic", "Protestant - Private", "Catholic - Private"),
   title = "Pairwise Comparisons for Verbal IQ"
 )
 
-ph.latex(bdf.lme,
+texph(bdf.lme,
   variable = "denomina",
   pairwise = FALSE,
   varlab = "Denomina",

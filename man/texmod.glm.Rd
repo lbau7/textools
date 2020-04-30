@@ -86,6 +86,9 @@ should be displayed if \code{results = "summary"}.}
 \item{ssq}{Whether the sum of squares should be displayed 
 if \code{results = "Anova"} and \code{test = "F"}.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texmod method for models of class \code{glm}.
 }

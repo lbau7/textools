@@ -11,6 +11,9 @@ texph(mod, ...)
 
 \item{...}{Further optional arguments.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texph is a generic functions that creates LaTeX tables for post-hoc
 comparisons and estimated marginal means of various regression models.

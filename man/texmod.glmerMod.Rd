@@ -73,6 +73,9 @@ should be displayed if \code{results = "summary"}.}
 \item{hr}{Whether the odds ratios should be displayed if
 \code{results = "summary"}.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texmod method for models of class \code{glmerMod}.
 }
@@ -83,7 +86,7 @@ Models of class \code{glmerMod} are currently only supported for
 \examples{
 bdf <- nlme::bdf
 bdf$IQ.verb <- ifelse(bdf$IQ.verb < median(bdf$IQ.verb), 0, 1)
-bdf.glmerMod <- glmer(IQ.verb ~ sex + aritPOST + Minority +
+bdf.glmerMod <- lme4::glmer(IQ.verb ~ sex + aritPOST + Minority +
    (1|schoolNR), data = bdf, family = "binomial")
 texmod(bdf.glmerMod,
   method = "Wald",

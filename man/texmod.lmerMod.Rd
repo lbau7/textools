@@ -79,6 +79,9 @@ should be displayed if \code{results = "summary"}.}
 
 \item{A}{model of class \code{lmerMod}.}
 }
+\value{
+\code{texph} uses \code{stargazer} to return LaTeX code for a table.
+}
 \description{
 texmod method for models of class \code{lmerMod}.
 }
