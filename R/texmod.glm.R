@@ -41,8 +41,8 @@
 #' )
 texmod.glm <- function(mod, results = c("summary", "Anova"), or = TRUE, 
                          logor = FALSE, ci = TRUE, ci_level = 0.95, 
-                         se.logor = FALSE, vcov = NULL, teststatistic = FALSE,
-                         df = TRUE, test = c("LR", "Wald", "F"), sq = TRUE, 
+                         se_logor = FALSE, vcov = NULL, teststatistic = FALSE,
+                         df = TRUE, test = c("LR", "Wald", "F"), ssq = TRUE, 
                          pval = TRUE, intercept = FALSE, title = NULL, 
                          n_title = TRUE, rowlabs = NULL, addref = TRUE, 
                          digits = 3, ...) {
@@ -62,7 +62,7 @@ texmod.glm <- function(mod, results = c("summary", "Anova"), or = TRUE,
       coefsm <- coef(summary(mod))
       coefsm <- cbind(exp(coefsm[, 1]), coefsm)
       colnames(coefsm) <- c("Odds Ratio", "log OR", "SE (log OR)", "z-Value", "p-Value")
-      inc.col <- which(c(or, logor, se.logor, teststatistic, pval) != 0)
+      inc.col <- which(c(or, logor, se_logor, teststatistic, pval) != 0)
       coefsm <- coefsm[, inc.col, drop = FALSE]
       
       if (ci == TRUE & or == TRUE) {
@@ -74,7 +74,7 @@ texmod.glm <- function(mod, results = c("summary", "Anova"), or = TRUE,
       coefsm <- lmtest::coeftest(mod, vcov = vcov)
       coefsm <- cbind(exp(coefsm[, 1]), coefsm)
       colnames(coefsm) <- c("Odds Ratio", "log OR", "SE (log OR)", "z-Value", "p-Value")
-      inc.col <- which(c(or, logor, se.logor, teststatistic, pval) != 0)
+      inc.col <- which(c(or, logor, se_logor, teststatistic, pval) != 0)
       coefsm <- coefsm[, inc.col, drop = FALSE]
       
       if (ci == TRUE & or == TRUE) {

@@ -26,6 +26,8 @@
 )
 }
 \arguments{
+\item{mod}{A model of class \code{lmerMod}.}
+
 \item{results}{Whether the displayed results are from \code{summary}
 or from \code{Anova} from the package car.}
 
@@ -76,8 +78,6 @@ should be displayed if \code{results = "summary"}.}
 \item{digits}{Number of digits that are displayed in the LaTeX tables.}
 
 \item{...}{Further optional arguments.}
-
-\item{A}{model of class \code{lmerMod}.}
 }
 \value{
 \code{texph} uses \code{stargazer} to return LaTeX code for a table.

@@ -9,11 +9,11 @@
   results = c("summary", "Anova"),
   estimate = TRUE,
   ci = TRUE,
-  ci.level = 0.95,
+  ci_level = 0.95,
   se = FALSE,
   teststatistic = FALSE,
   df = TRUE,
-  df.res = TRUE,
+  df_res = TRUE,
   test = c("Chisq", "F"),
   pval = TRUE,
   intercept = FALSE,
@@ -26,6 +26,8 @@
 )
 }
 \arguments{
+\item{mod}{A model of class \code{lmerModLmerTest}.}
+
 \item{results}{Whether the displayed results are from \code{summary}
 or from \code{Anova} from the package car.}
 
@@ -36,6 +38,8 @@ intercept and the the fixedslopes) should be displayed if
 \item{ci}{Whether confidence intervals for the estimates should be displayed 
 if \code{results = "summary"}.}
 
+\item{ci_level}{Level for the confidence intervals.}
+
 \item{se}{Whether the standard errors of the estimates should be
 displayed if \code{results = "summary"}.}
 
@@ -44,6 +48,9 @@ displayed if \code{results = "summary"}.}
 \item{df}{Whether the degrees of freedom should be displayed if 
 \code{results = "Anova"} or when \code{results = "summary"} and
 \code{pval = TRUE}.}
+
+\item{df_res}{Whether degrees of freedom residuals should be displayed if 
+\code{results = "Anova"} and \code{test = "F"}.}
 
 \item{test}{Which test should be calculated, if \code{results = "Anova"}.
 Either \code{"Chisq"} or \code{"F"}.}
@@ -71,13 +78,6 @@ should be displayed if \code{results = "summary"}.}
 \item{digits}{Number of digits that are displayed in the LaTeX tables.}
 
 \item{...}{Further optional arguments.}
-
-\item{A}{model of class \code{lmerModLmerTest}.}
-
-\item{ci_level}{Level for the confidence intervals.}
-
-\item{df_res}{Whether degrees of freedom residuals should be displayed if 
-\code{results = "Anova"} and \code{test = "F"}.}
 }
 \value{
 \code{texph} uses \code{stargazer} to return LaTeX code for a table.

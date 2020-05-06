@@ -11,12 +11,12 @@
   logor = FALSE,
   ci = TRUE,
   ci_level = 0.95,
-  se.logor = FALSE,
+  se_logor = FALSE,
   vcov = NULL,
   teststatistic = FALSE,
   df = TRUE,
   test = c("LR", "Wald", "F"),
-  sq = TRUE,
+  ssq = TRUE,
   pval = TRUE,
   intercept = FALSE,
   title = NULL,
@@ -33,6 +33,9 @@
 \item{results}{Whether the displayed results are from \code{summary}
 or from \code{Anova} from the package car.}
 
+\item{or}{Whether the odds ratios should be displayed if
+\code{results = "summary"}.}
+
 \item{logor}{Whether the log odds ratios should be displayed if
 \code{results = "summary"}.}
 
@@ -40,6 +43,9 @@ or from \code{Anova} from the package car.}
 displayed if \code{results = "summary"}.}
 
 \item{ci_level}{Level for the confidence intervals.}
+
+\item{se_logor}{Whether the standard errors of the log odds ratios
+should be displayed if \code{results = "summary"}.}
 
 \item{vcov}{If \code{NULL} then the covariance matrix computed
 from \code{lm} will be used. Alternatively, one of the covariance matrix
@@ -52,6 +58,9 @@ functions from the the \code{sandwich} package can be passed.}
 
 \item{test}{Which test should be calculated, if \code{results = "Anova"}.
 Either \code{"LR"}, \code{"Wald"} or \code{"F"}.}
+
+\item{ssq}{Whether the sum of squares should be displayed 
+if \code{results = "Anova"} and \code{test = "F"}.}
 
 \item{pval}{Whether the p-values should be displayed.}
 
@@ -76,15 +85,6 @@ should be displayed if \code{results = "summary"}.}
 \item{digits}{Number of digits that are displayed in the LaTeX tables.}
 
 \item{...}{Further optional arguments.}
-
-\item{hr}{Whether the odds ratios should be displayed if
-\code{results = "summary"}.}
-
-\item{se_logor}{Whether the standard errors of the log odds ratios
-should be displayed if \code{results = "summary"}.}
-
-\item{ssq}{Whether the sum of squares should be displayed 
-if \code{results = "Anova"} and \code{test = "F"}.}
 }
 \value{
 \code{texph} uses \code{stargazer} to return LaTeX code for a table.

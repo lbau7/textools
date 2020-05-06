@@ -16,13 +16,10 @@
 #' @param digits number of digits that are displayed for relative frequencies. Default is 3.
 #' @param ... further arguments to be passed to other functions.
 #'
-#' @return
+#' @return \code{corr.table} uses \code{stargazer} to return LaTeX code for a table.
 #' @export
-#'
-#' @examples
-#'
 corr.table <- function(x, type = c("pearson", "spearman"), tex = TRUE, title = NULL,
-  labs = NULL, digits = 3, ...) {
+                       labs = NULL, digits = 3, ...) {
   type <- match.arg(type)
   x <- as.matrix(x)
   corrtab <- Hmisc::rcorr(x, type = type)
@@ -39,7 +36,7 @@ corr.table <- function(x, type = c("pearson", "spearman"), tex = TRUE, title = N
 
   if (tex == TRUE) {
     if (is.null(title)) title <- "Correlation Table"
-    stargazer(corrtab, title = title, ...)
+    stargazer::stargazer(corrtab, title = title, ...)
   } else {
     corrtab
   }

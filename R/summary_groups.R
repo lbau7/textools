@@ -15,13 +15,13 @@
 #' @return \code{summary_groupss} uses \code{stargazer} to return 
 #'   LaTeX code for a table.
 #' @export
-summary_groupss <- function(x, groups, sum.all = TRUE, rowlabs = NULL, 
+summary_groups <- function(x, groups, sum.all = TRUE, rowlabs = NULL, 
                            tex = FALSE, title = NULL, digits = 2, ...) {
-  summary.df <- aggregate(x, list(groups), summary.new)[,2 ]
+  summary.df <- stats::aggregate(x, list(groups), summary.new)[,2 ]
   if (!is.factor(groups)) groups <- factor(groups)
   if (is.null(rowlabs)) rowlabs <- levels(groups)
   if (sum.all == TRUE) {
-    summary.df <- rbind(summary.new(x), summary.df)
+    summary.df <- rbind(summary_new(x), summary.df)
     rownames(summary.df) <- c("All", rowlabs)
   } else {
     rownames(summary.df) <- rowlabs
@@ -29,7 +29,7 @@ summary_groupss <- function(x, groups, sum.all = TRUE, rowlabs = NULL,
   
   if (tex == TRUE) {
     if (is.null(title)) title <- "Descriptive Summary"
-    stargazer(as.matrix(summary.df), 
+    stargazer::stargazer(as.matrix(summary.df), 
       title = title, 
       digits = digits,
       ...)

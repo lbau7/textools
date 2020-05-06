@@ -2,7 +2,7 @@
 #' 
 #' texmod method for models of class \code{lmerModLmerTest}.
 #'
-#' @param A model of class \code{lmerModLmerTest}.
+#' @param mod A model of class \code{lmerModLmerTest}.
 #' @template results
 #' @template estimate_mixed
 #' @template ci_linear
@@ -36,9 +36,9 @@
 #' )
 texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"), 
                                    estimate = TRUE, ci = TRUE, 
-                                   ci.level = 0.95, se = FALSE, 
+                                   ci_level = 0.95, se = FALSE, 
                                    teststatistic = FALSE, df = TRUE,  
-                                   df.res = TRUE, test = c("Chisq", "F"), 
+                                   df_res = TRUE, test = c("Chisq", "F"), 
                                    pval = TRUE, intercept = FALSE,
                                    title = NULL, n_title = TRUE, rowlabs = NULL, 
                                    addref = TRUE, digits = 3, ...) {
@@ -53,7 +53,7 @@ texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"),
     
     if (ci == TRUE & estimate == TRUE) {
       arglist.ci <- dotlist[names(dotlist) %in% c("method", "boot.type")]
-      estci <- do.call(confint, c(list(mod, level = ci.level), arglist.ci))
+      estci <- do.call(confint, c(list(mod, level = ci_level), arglist.ci))
       estci <- estci[(nrow(estci) - nrow(coefsm) + 1):nrow(estci), , drop = FALSE]
       coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
         "Upper CL" = estci[, 2], coefsm[, -1, drop = FALSE])
@@ -73,7 +73,7 @@ texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"),
       coefsm <- coefsm[, inc.col, drop = FALSE]
     } else if (test == "F") {
       colnames(coefsm) <- c("F-Value", "df", "df Residuals", "p-Value")
-      inc.col <- which(c(teststatistic, df, df.res, pval) != 0)
+      inc.col <- which(c(teststatistic, df, df_res, pval) != 0)
       coefsm <- coefsm[, inc.col, drop = FALSE]
     }
     if (is.null(title)) title <- "Mixed Model Analysis of Variance"

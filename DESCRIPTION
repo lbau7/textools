@@ -8,11 +8,16 @@ Description: Generate nice looking LaTeX tables
 License: GPL3.0
 Encoding: UTF-8
 LazyData: true
-Depends:
-  stargazer
 Imports:
+  car,
+  stargazer,
   survival,
   MASS,
   nlme,
-  lme4
+  lme4,
+  lmerTest,
+  emmeans,
+  lmtest,
+  stats,
+  Hmisc
 RoxygenNote: 7.1.0

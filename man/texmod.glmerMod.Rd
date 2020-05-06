@@ -30,6 +30,9 @@
 \item{results}{Whether the displayed results are from \code{summary}
 or from \code{Anova} from the package car.}
 
+\item{or}{Whether the odds ratios should be displayed if
+\code{results = "summary"}.}
+
 \item{logor}{Whether the log odds ratios should be displayed if
 \code{results = "summary"}.}
 
@@ -69,9 +72,6 @@ should be displayed if \code{results = "summary"}.}
 \item{digits}{Number of digits that are displayed in the LaTeX tables.}
 
 \item{...}{Further optional arguments.}
-
-\item{hr}{Whether the odds ratios should be displayed if
-\code{results = "summary"}.}
 }
 \value{
 \code{texph} uses \code{stargazer} to return LaTeX code for a table.

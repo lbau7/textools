@@ -2,7 +2,7 @@
 #' 
 #' texmod method for models of class \code{lmerMod}.
 #'
-#' @param A model of class \code{lmerMod}.
+#' @param mod A model of class \code{lmerMod}.
 #' @template results
 #' @template estimate_mixed
 #' @template ci_linear

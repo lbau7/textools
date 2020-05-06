@@ -1,11 +1,11 @@
-summary.new <- function(x, tex = FALSE, title = NULL, digits = 2,  ...) {
+summary_new <- function(x, tex = FALSE, title = NULL, digits = 2,  ...) {
   N.x <- sum(!is.na(x))
   nmiss.x <- sum(is.na(x))
-  median.x <- median(x, na.rm = TRUE)
-  quartil1.x <- as.numeric(quantile(x, probs = 0.25, na.rm = TRUE))
-  quartil3.x <- as.numeric(quantile(x, probs = 0.75, na.rm = TRUE))
+  median.x <- stats::median(x, na.rm = TRUE)
+  quartil1.x <- as.numeric(stats::quantile(x, probs = 0.25, na.rm = TRUE))
+  quartil3.x <- as.numeric(stats::quantile(x, probs = 0.75, na.rm = TRUE))
   mean.x <- mean(x, na.rm = TRUE)
-  sd.x <- sd(x, na.rm = TRUE)
+  sd.x <- stats::sd(x, na.rm = TRUE)
   min.x <- min(x, na.rm = TRUE)
   max.x <- max(x, na.rm = TRUE)
   
@@ -16,7 +16,7 @@ summary.new <- function(x, tex = FALSE, title = NULL, digits = 2,  ...) {
   
   if (tex == TRUE) {
     if (is.null(title)) title <- "Descriptive Summary"
-    stargazer(as.matrix(summary.frame), title = title, ...)
+    stargazer::stargazer(as.matrix(summary.frame), title = title, ...)
   } else {
     summary.frame
   }
