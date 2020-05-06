@@ -82,7 +82,7 @@ texph method for models of class \code{lmerMod}.
 \examples{
 bdf.lmerMod <- lme4::lmer(IQ.verb ~ sex + aritPOST + denomina + 
   Minority + (1|schoolNR),
-  data = bdf)
+  data = nlme::bdf)
 texph(bdf.lmerMod,
   variable = "denomina",
   rowlabs = c("Public - Protestant", "Public - Catholic", "Public - Private",

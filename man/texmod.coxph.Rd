@@ -79,3 +79,13 @@ should be displayed if \code{results = "summary"}.}
 \description{
 texmod method for models of class \code{coxph}.
 }
+\examples{
+lung <- survival::lung
+lung.coxph <- survival::coxph(survival::Surv(time, status) ~ 
+  age + factor(sex) + meal.cal + ph.karno, data = lung)
+texmod(lung.coxph,
+  title = "Cox Regression for Overall Survival",
+  rowlabs = c("Age", "Sex (male)", "Sex (female)", "Meal calories",
+    "Karnofsky score (physician)")
+ )
+}

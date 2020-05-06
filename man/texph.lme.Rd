@@ -80,9 +80,9 @@ of \code{summary} or \code{Anova} are use.}
 texph method for models of class \code{lme}.
 }
 \examples{
-bdf.lme <- lme(IQ.verb ~ sex + aritPOST + denomina + Minority,
+bdf.lme <- nlme::lme(IQ.verb ~ sex + aritPOST + denomina + Minority,
   random = ~1|schoolNR,
-  data = bdf)
+  data = nlme::bdf)
 texph(bdf.lme,
   variable = "denomina",
   rowlabs = c("Public - Protestant", "Public - Catholic", "Public - Private",
