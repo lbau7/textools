@@ -81,5 +81,8 @@ texph.glmerMod <- function(mod, variable, pairwise = TRUE, estimate = TRUE,
   if (!is.null(rowlabs)) coefem[, 1] <- rowlabs
   rownames(coefem) <- NULL
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(as.matrix(coefem), title = title), arglist.sg))
+  do.call(
+    stargazer::stargazer,
+    c(list(as.matrix(coefem), title = title, header = FALSE), arglist.sg)
+  )
 }

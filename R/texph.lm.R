@@ -48,7 +48,7 @@
 #'   title = "EM Means for Sepal Length"
 #' )
 texph.lm <- function(mod, variable, pairwise = TRUE, estimate = TRUE,
-                     se = FALSE, df = TRUE, teststatistic = FALSE, 
+                     se = FALSE, df = FALSE, teststatistic = FALSE, 
                      pval = TRUE, ci = TRUE, ci_level = 0.95, title = NULL,
                      varlab = NULL, rowlabs = NULL, digits = 3, ...) {
   dotlist <- list(...)
@@ -86,5 +86,8 @@ texph.lm <- function(mod, variable, pairwise = TRUE, estimate = TRUE,
   if (!is.null(rowlabs)) coefsm[, 1] <- rowlabs
   rownames(coefem) <- NULL
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
-  do.call(stargazer::stargazer, c(list(as.matrix(coefem), title = title), arglist.sg))
+  do.call(
+    stargazer::stargazer, 
+    c(list(as.matrix(coefem), title = title, header = FALSE), arglist.sg)
+  )
 }
