@@ -12,12 +12,15 @@ Imports:
   stargazer,
   emmeans
 Suggests:
-  car,
-  survival,
-  MASS,
-  nlme,
-  lme4,
-  lmerTest,
-  lmtest,
-  Hmisc
+    car,
+    survival,
+    MASS,
+    nlme,
+    lme4,
+    lmerTest,
+    lmtest,
+    Hmisc,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.0
+VignetteBuilder: knitr

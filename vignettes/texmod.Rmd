@@ -1,0 +1,24 @@
+---
+title: "texmod"
+output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{texmod}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The main function of textools is `texmod` which creates LaTeX tables for the regression output of various models. If you want to use `texmod` to create a LaTeX table, all you need is an object that is created from a model-fitting function like `lm`. 
+
+```{r, eval = TRUE, results = "asis"}
+library(textools)
+
+iris.lm <- lm(Sepal.Length ~ Sepal.Width + Petal.Width + Species, data = iris)
+texmod(iris.lm)
+```
