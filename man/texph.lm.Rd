@@ -10,7 +10,7 @@
   pairwise = TRUE,
   estimate = TRUE,
   se = FALSE,
-  df = TRUE,
+  df = FALSE,
   teststatistic = FALSE,
   pval = TRUE,
   ci = TRUE,
