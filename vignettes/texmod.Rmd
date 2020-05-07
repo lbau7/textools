@@ -33,7 +33,7 @@ If you want to show the output of an ANOVA instead, you can do this by setting `
 
 ```{r, eval = TRUE, results = "asis"}
 texmod(iris.lm,
-  results = "Anova"
+  results = "Anova",
   title = "ANOVA for Sepal Length",
   rowlabs = c("Sepal Width", "Petal Width", "Species")
 )
