@@ -48,14 +48,14 @@ texph.lmerModLmerTest <- function(mod, variable, pairwise = TRUE,
   emmod <- emmeans::emmeans(mod, variable)
   
   if (pairwise == TRUE) {
-    emmod <- pairs(emmod, ...)
+    emmod <- graphics::pairs(emmod, ...)
     coefem <- data.frame(emmod)
     colnames(coefem) <- c("Contrast", "Mean Diff", "Std. Error", "df", "t-Ratio", "p-Value")
     inc.col <- which(c(estimate, se, df, teststatistic, pval) != 0) + 1
     coefem <- coefem[, c(1, inc.col), drop = FALSE]
     
     if(ci == TRUE) {
-      emci <- confint(emmod, level = ci_level)[, 5:6]
+      emci <- stats::confint(emmod, level = ci_level)[, 5:6]
       coefem <- cbind(coefem[, 1:2, drop = FALSE], "Lower CL" = emci[, 1], 
         "Upper CL" = emci[,2 ], coefem[, -(1:2), drop = FALSE])
     }

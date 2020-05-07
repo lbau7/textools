@@ -54,7 +54,7 @@ texmod.glmerMod <- function(mod, results = c("summary", "Anova"), or = TRUE,
   }
   
   if (results == "summary") {
-    coefsm <- coef(summary(mod))
+    coefsm <- stats::coef(summary(mod))
     coefsm <- cbind(exp(coefsm[, 1]), coefsm)
     colnames(coefsm) <- c("Odds Ratios", "log OR", "SE (log OR)", "z-Value", "p-Value")
     inc.col <- which(c(or, logor, se_logor, teststatistic, pval) != 0)
@@ -62,7 +62,7 @@ texmod.glmerMod <- function(mod, results = c("summary", "Anova"), or = TRUE,
     
     if (ci == TRUE & or == TRUE) {
       arglist.ci <- dotlist[names(dotlist) %in% c("method", "boot.type")]
-      estci <- do.call(confint, c(list(mod, level = ci_level), arglist.ci))
+      estci <- do.call(stats::confint, c(list(mod, level = ci_level), arglist.ci))
       estci <- exp(estci)
       estci <- estci[(nrow(estci) - nrow(coefsm) + 1):nrow(estci), , drop = FALSE]
       coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
@@ -124,7 +124,7 @@ texmod.glmerMod <- function(mod, results = c("summary", "Anova"), or = TRUE,
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
   if (n_title == TRUE) {
-    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+    title <- paste0(title, " (n = ", nrow(stats::model.frame(mod)), ")")
   }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
   do.call(

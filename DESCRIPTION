@@ -4,8 +4,9 @@ Title: Generate nice looking LaTeX tables
 Version: 0.1.0
 Author: Lukas Baumann 
 Maintainer: Lukas Baumann <baumann@imbi.uni-heidelberg.de>
-Description: Generate nice looking LaTeX tables
-License: GPL3.0
+Description: Generate nice looking LaTeX tables for regression models and
+  descriptive summaries.
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:

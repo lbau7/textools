@@ -1,6 +1,6 @@
 #' LaTeX tables for summaries by groups
 #' 
-#' \code{summary_groupss} generates a LaTeX table with the descriptive
+#' \code{summary_groups} generates a LaTeX table with the descriptive
 #' summary of a continuous variable by groups.
 #'
 #' @param x The variable for which a summary is computed.
@@ -17,7 +17,7 @@
 #' @export
 summary_groups <- function(x, groups, sum.all = TRUE, rowlabs = NULL, 
                            tex = FALSE, title = NULL, digits = 2, ...) {
-  summary.df <- stats::aggregate(x, list(groups), summary.new)[,2 ]
+  summary.df <- stats::aggregate(x, list(groups), summary_new)[,2 ]
   if (!is.factor(groups)) groups <- factor(groups)
   if (is.null(rowlabs)) rowlabs <- levels(groups)
   if (sum.all == TRUE) {

@@ -1,7 +1,7 @@
 #' Contingency Table
 #' 
-#' corr.table creates a contingency table with absolute and relative
-#' frequencies
+#' \code{ctable} creates a contingency table with absolute and relative
+#' frequencies.
 #' 
 #'
 #' @param x A vector that represents the variable displayed in rows.
@@ -15,7 +15,7 @@
 #' @template digits
 #' @template dotdotdot
 #'
-#' @return \code{corr.table} uses \code{stargazer} to return LaTeX code for a table.
+#' @return \code{ctable} uses \code{stargazer} to return LaTeX code for a table.
 #' @export
 ctable <- function(x, y, margin = 2, tex = FALSE, title = NULL, 
   rowlabs = NULL, collabs = NULL, digits = 1, ...) {
@@ -30,7 +30,7 @@ ctable <- function(x, y, margin = 2, tex = FALSE, title = NULL,
   
   if (tex == TRUE) {
     if (is.null(title)) title <- "Contingency Table"
-    stargazer(c.table, title = title, ...)
+    stargazer::stargazer(c.table, title = title, ...)
   } else {
     c.table
   }

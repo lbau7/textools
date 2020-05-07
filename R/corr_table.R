@@ -1,7 +1,7 @@
 #' Correlation Table
 #'
-#' corr.table creates a lower triangle correlation table with stars that indicate whether a
-#' correlation coefficient is significantly different from zero.
+#' \code{corr_table} creates a lower triangle correlation table with stars that indicate
+#' whether a correlation coefficient is significantly different from zero.
 #'
 #' @param x a matrix or a data.frame with the variables for which the pairwise correlations should
 #' be calculated.
@@ -16,9 +16,9 @@
 #' @param digits number of digits that are displayed for relative frequencies. Default is 3.
 #' @param ... further arguments to be passed to other functions.
 #'
-#' @return \code{corr.table} uses \code{stargazer} to return LaTeX code for a table.
+#' @return \code{corr_table} uses \code{stargazer} to return LaTeX code for a table.
 #' @export
-corr.table <- function(x, type = c("pearson", "spearman"), tex = TRUE, title = NULL,
+corr_table <- function(x, type = c("pearson", "spearman"), tex = TRUE, title = NULL,
                        labs = NULL, digits = 3, ...) {
   type <- match.arg(type)
   x <- as.matrix(x)

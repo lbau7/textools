@@ -55,7 +55,7 @@ texmod.aov <- function(mod, results = c("summary", "Anova"), ssq = TRUE,
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
   if (n_title == TRUE) {
-    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+    title <- paste0(title, " (n = ", nrow(stats::model.frame(mod)), ")")
   }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
   do.call(

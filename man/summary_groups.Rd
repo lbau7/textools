@@ -40,6 +40,6 @@ If \code{title = NULL} then the caption is "Descriptive Summary".}
   LaTeX code for a table.
 }
 \description{
-\code{summary_groupss} generates a LaTeX table with the descriptive
+\code{summary_groups} generates a LaTeX table with the descriptive
 summary of a continuous variable by groups.
 }

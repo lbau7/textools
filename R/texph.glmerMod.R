@@ -50,14 +50,14 @@ texph.glmerMod <- function(mod, variable, pairwise = TRUE, estimate = TRUE,
   emmod <- emmeans::emmeans(mod, variable, type = "response")
   
   if (pairwise == TRUE) {
-    emmod <- pairs(emmod, ...)
+    emmod <- graphics::pairs(emmod, ...)
     coefem <- data.frame(emmod)[, -4]
     colnames(coefem) <- c("Contrast", "Odds Ratio", "Std. Error", "z-Ratio", "p-Value")
     inc.col <- which(c(estimate, se, teststatistic, pval) != 0) + 1
     coefem <- coefem[, c(1, inc.col), drop = FALSE]
     
     if(ci == TRUE & estimate == TRUE) {
-      emci <- confint(emmod, level = ci_level)[, 5:6]
+      emci <- stats::confint(emmod, level = ci_level)[, 5:6]
       coefem <- cbind(coefem[, 1:2, drop = FALSE], "Lower CL" = emci[, 1], 
         "Upper CL" = emci[,2 ], coefem[, -(1:2), drop = FALSE])
     }

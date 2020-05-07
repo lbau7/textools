@@ -46,14 +46,14 @@ texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"),
   dotlist <- list(...)
   
   if (results == "summary") {
-    coefsm <- coef(summary(mod))
+    coefsm <- stats::coef(summary(mod))
     colnames(coefsm) <- c("Estimate", "Std.Error", "df", "t-Value", "p-Value")
     inc.col <- which(c(estimate, se, df, teststatistic, pval) != 0)
     coefsm <- coefsm[, inc.col, drop = FALSE]
     
     if (ci == TRUE & estimate == TRUE) {
       arglist.ci <- dotlist[names(dotlist) %in% c("method", "boot.type")]
-      estci <- do.call(confint, c(list(mod, level = ci_level), arglist.ci))
+      estci <- do.call(stats::confint, c(list(mod, level = ci_level), arglist.ci))
       estci <- estci[(nrow(estci) - nrow(coefsm) + 1):nrow(estci), , drop = FALSE]
       coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1], 
         "Upper CL" = estci[, 2], coefsm[, -1, drop = FALSE])
@@ -121,7 +121,7 @@ texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"),
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
   if (n_title == TRUE) {
-    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+    title <- paste0(title, " (n = ", nrow(stats::model.frame(mod)), ")")
   }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
   do.call(

@@ -42,13 +42,13 @@ texmod.lme <- function(mod, results = c("summary", "Anova"), estimate = TRUE,
   dotlist <- list(...)
   
   if (results == "summary") {
-    coefsm <- coef(summary(mod))
+    coefsm <- stats::coef(summary(mod))
     colnames(coefsm) <- c("Estimate", "Std.Error", "df", "t-Value", "p-Value")
     inc.col <- which(c(estimate, se, df, teststatistic, pval) != 0)
     coefsm <- coefsm[, inc.col, drop = FALSE]
     
     if (ci == TRUE & estimate == TRUE) {
-      estci <- intervals(mod, level = ci_level)$fixed
+      estci <- nlme::intervals(mod, level = ci_level)$fixed
       coefsm <- cbind(coefsm[, 1, drop = FALSE], "Lower CL" = estci[, 1],
         "Upper CL" = estci[, 3], coefsm[, -1, drop = FALSE])
     }
@@ -108,7 +108,7 @@ texmod.lme <- function(mod, results = c("summary", "Anova"), estimate = TRUE,
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
   if (n_title == TRUE) {
-    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+    title <- paste0(title, " (n = ", nrow(stats::model.frame(mod)), ")")
   }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
   do.call(

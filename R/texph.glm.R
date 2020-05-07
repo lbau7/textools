@@ -44,7 +44,7 @@ texph.glm <- function(mod, variable, pairwise = TRUE, estimate = TRUE,
   emmod <- emmeans::emmeans(mod, variable, type = "response")
   
   if (pairwise == TRUE) {
-    emmod <- pairs(emmod, ...)
+    emmod <- graphics::pairs(emmod, ...)
     coefem <- data.frame(emmod)[, -4]
     colnames(coefem) <- c("Contrast", "Odds Ratio", "Std. Error", "z-Ratio", "p-Value")
     inc.col <- which(c(estimate, se, teststatistic, pval) != 0) + 1

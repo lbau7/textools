@@ -39,9 +39,9 @@ of \code{summary} or \code{Anova} are use.}
 \item{...}{Further optional arguments.}
 }
 \value{
-\code{corr.table} uses \code{stargazer} to return LaTeX code for a table.
+\code{ctable} uses \code{stargazer} to return LaTeX code for a table.
 }
 \description{
-corr.table creates a contingency table with absolute and relative
-frequencies
+\code{ctable} creates a contingency table with absolute and relative
+frequencies.
 }

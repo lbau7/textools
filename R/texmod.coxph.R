@@ -43,7 +43,7 @@ texmod.coxph <- function(mod, results = c("summary", "Anova"), hr = TRUE,
   
   if (results == "summary") {
     sm <- summary(mod, conf.int = ci_level)
-    coefsm <- coef(sm)[, c(2, 1, 3:5), drop = FALSE]
+    coefsm <- stats::coef(sm)[, c(2, 1, 3:5), drop = FALSE]
     colnames(coefsm) <- c("Hazard Ratio", "log HR", "SE (log HR)", "z-Value", "p-Value")
     inc.col <- which(c(hr, loghr, se_loghr, teststatistic, pval) != 0)
     coefsm <- coefsm[, inc.col, drop = FALSE]
@@ -80,10 +80,11 @@ texmod.coxph <- function(mod, results = c("summary", "Anova"), hr = TRUE,
   if (pval == TRUE) coefsm[highsig, ncol(coefsm)] <- "<0.001"
   
   if (results == "summary" & addref == TRUE) {
-    facrows <- sapply(model.frame(mod), class)
+      facrows <- sapply(stats::model.frame(mod), class)
     facrows <- sapply(facrows, function(x) x[[1]])
     facrows <- facrows %in% c("factor", "ordered")
-    faclevs <- sapply(model.frame(mod)[,facrows], function(x) levels(x)[1])
+    faclevs <- sapply(stats::model.frame(mod)[,facrows], 
+      function(x) levels(x)[1])
     facrlabs <- paste0(names(faclevs), faclevs)
     
     facvec <- numeric()
@@ -91,7 +92,8 @@ texmod.coxph <- function(mod, results = c("summary", "Anova"), hr = TRUE,
       if (facrows[i] == FALSE) {
         facvec <- c(facvec, FALSE) 
       } else {
-        facvec <- c(facvec, TRUE, rep(FALSE, length(levels(model.frame(mod)[, i])) - 2))
+        facvec <- c(facvec, TRUE, rep(FALSE, 
+          length(levels(stats::model.frame(mod)[, i])) - 2))
       }
     }
     
@@ -117,7 +119,7 @@ texmod.coxph <- function(mod, results = c("summary", "Anova"), hr = TRUE,
   
   if (!is.null(rowlabs)) rownames(coefsm) <- rowlabs
   if (n_title == TRUE) {
-    title <- paste0(title, " (n = ", nrow(model.frame(mod)), ")")
+    title <- paste0(title, " (n = ", nrow(stats::model.frame(mod)), ")")
   }
   arglist.sg <- dotlist[names(dotlist) == "table.placement"]
   do.call(
