@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-The main function of textools is `texmod` which creates LaTeX tables for the regression output of various models. If you want to use `texmod` to create a LaTeX table, all you need is an object that is created from a model-fitting function like `lm`. 
+# Basic Usage
+
+The main function of textools is `texmod()` which creates LaTeX tables for the regression output of various models. If you want to use `texmod()` to create a LaTeX table, all you need is an object that is created from a model-fitting function like `lm()`. 
 
 ```{r, eval = TRUE, results = "asis"}
 library(textools)
@@ -29,7 +31,7 @@ texmod(iris.lm,
 
 By default for `lm` models only the estimates, the 95% confidence intervals for the estimates and the p-values are shown. Check out the documentation to see which columns you can add.
 
-If you want to show the output of an ANOVA instead, you can do this by setting `results = "Anova"`.
+If you want to show the output of an ANOVA instead, you can do this by setting `results = "Anova"`. This calls the `Anova()` function from the package `car`.
 
 ```{r, eval = TRUE, results = "asis"}
 texmod(iris.lm,
@@ -38,3 +40,17 @@ texmod(iris.lm,
   rowlabs = c("Sepal Width", "Petal Width", "Species")
 )
 ```
+
+# Supported Models
+
+Currently models from the following classes are supported:
+
+* `aov` models created from `aov()`,
+* `coxph` models created from `survival::coxph()`,
+* `crr` models created from `cmprsk::crr()`,
+* `glm` models (only with `family = binomial(link = "logit")` created from `glm()`,
+* `glmerMod` models (only with `family = binomial(link = "logit")` created from `lme4::glmer()`,
+* `lm` models created from `lm()`,
+* `lme` models created from `nlme::lme()`,
+* `lmerMod` models created from `lme4::lmer()`,
+* `lmerModLmerTest` models created from `lmerTest::lmer()`.

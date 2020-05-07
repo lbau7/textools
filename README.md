@@ -33,8 +33,8 @@ browseVignettes("textools")
 
 ## Usage
 
-The main function of textools is `texmod` which creates LaTeX tables for
-the regression output of various models.
+The main function of textools is `texmod()` which creates LaTeX tables
+for the regression output of various models.
 
 ``` r
 library(textools)
