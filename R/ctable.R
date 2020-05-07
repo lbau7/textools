@@ -1,3 +1,22 @@
+#' Contingency Table
+#' 
+#' corr.table creates a contingency table with absolute and relative
+#' frequencies
+#' 
+#'
+#' @param x A vector that represents the variable displayed in rows.
+#' @param y A vector that represents the variable displayed in columns.
+#' @param margin Whether the relative frequencies should be computed rowwise
+#'   or columnwise
+#' @param tex Whether the results should be displayed as a LaTeX table.
+#' @param title Title for the LaTeX table.
+#' @template rowlabs
+#' @param collabs Names for the columns.
+#' @template digits
+#' @template dotdotdot
+#'
+#' @return \code{corr.table} uses \code{stargazer} to return LaTeX code for a table.
+#' @export
 ctable <- function(x, y, margin = 2, tex = FALSE, title = NULL, 
   rowlabs = NULL, collabs = NULL, digits = 1, ...) {
   ntable <- table(x, y)
