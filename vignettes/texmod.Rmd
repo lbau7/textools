@@ -20,5 +20,21 @@ The main function of textools is `texmod` which creates LaTeX tables for the reg
 library(textools)
 
 iris.lm <- lm(Sepal.Length ~ Sepal.Width + Petal.Width + Species, data = iris)
-texmod(iris.lm)
+texmod(iris.lm,
+  title = "Linear Model for Sepal Length",
+  rowlabs = c("Sepal Width", "Petal Width", "Species (versicolor)",
+    "Species (setosa)", "Species (virginica)")
+)
+```
+
+By default for `lm` models only the estimates, the 95% confidence intervals for the estimates and the p-values are shown. Check out the documentation to see which columns you can add.
+
+If you want to show the output of an ANOVA instead, you can do this by setting `results = "Anova"`.
+
+```{r, eval = TRUE, results = "asis"}
+texmod(iris.lm,
+  results = "Anova"
+  title = "ANOVA for Sepal Length",
+  rowlabs = c("Sepal Width", "Petal Width", "Species")
+)
 ```

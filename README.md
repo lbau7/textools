@@ -10,9 +10,25 @@ textools create nice looking LaTeX tables.
 
 ## Installation
 
+If you only want to use the packages:
+
 ``` r
 # install.packages("devtools")
 devtools::install_github("lbau7/textools")
+```
+
+If you also want to build the vignettes (attention: this will install
+all suggested packages):
+
+``` r
+# install.packages("devtools")
+devtools::install_github("lbau7/textools", build_vignettes = TRUE)
+```
+
+Then you can check out the vignettes:
+
+``` r
+browseVignettes("textools")
 ```
 
 ## Usage
@@ -24,9 +40,7 @@ the regression output of various models.
 library(textools)
 
 iris.lm <- lm(Sepal.Length ~ Sepal.Width + Petal.Width + Species, data = iris)
-texmod(iris.lm,
-  title = "Linear Model for Sepal Length",
-  rowlabs = c("Sepal Width", "Petal Width", "Species (versicolor)",
-    "Species (setosa)", "Species (virginica)")
-)
+texmod(iris.lm)
 ```
+
+Check out the vignettes for some examples.

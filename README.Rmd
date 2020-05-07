@@ -12,11 +12,26 @@ textools create nice looking LaTeX tables.
 
 ## Installation
 
+If you only want to use the packages:
+
 ```{r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("lbau7/textools")
 ```
   
+If you also want to build the vignettes (attention: this will install all suggested packages): 
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("lbau7/textools", build_vignettes = TRUE)
+```
+  
+Then you can check out the vignettes:
+
+```{r, eval = FALSE}
+browseVignettes("textools")
+```
+
 ## Usage
 
 The main function of textools is `texmod` which creates LaTeX tables for the regression output of various models.
@@ -25,9 +40,7 @@ The main function of textools is `texmod` which creates LaTeX tables for the reg
 library(textools)
 
 iris.lm <- lm(Sepal.Length ~ Sepal.Width + Petal.Width + Species, data = iris)
-texmod(iris.lm,
-  title = "Linear Model for Sepal Length",
-  rowlabs = c("Sepal Width", "Petal Width", "Species (versicolor)",
-    "Species (setosa)", "Species (virginica)")
-)
+texmod(iris.lm)
 ```
+
+Check out the vignettes for some examples.
