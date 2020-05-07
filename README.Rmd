@@ -1,8 +1,10 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. -->
 
-[![Build
-Status](https://travis-ci.org/lbau7/textools.svg?branch=master)](https://travis-ci.org/lbau7/textools)
+[![Build Status](https://travis-ci.org/lbau7/textools.svg?branch=master)](https://travis-ci.org/lbau7/textools)
 
 # textools
 
@@ -10,17 +12,16 @@ textools create nice looking LaTeX tables.
 
 ## Installation
 
-``` r
+```{r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("lbau7/textools")
 ```
-
+  
 ## Usage
 
-The main function of textools is `texmod` which creates LaTeX tables for
-the regression output of various models.
+The main function of textools is `texmod` which creates LaTeX tables for the regression output of various models.
 
-``` r
+```{r, eval = FALSE}
 library(textools)
 
 iris.lm <- lm(Sepal.Length ~ Sepal.Width + Petal.Width + Species, data = iris)
