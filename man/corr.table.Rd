@@ -35,12 +35,9 @@ If labs is NULL (default) then the colnames of x are used for the rownames and c
 \item{...}{further arguments to be passed to other functions.}
 }
 \value{
-
+\code{corr.table} uses \code{stargazer} to return LaTeX code for a table.
 }
 \description{
 corr.table creates a lower triangle correlation table with stars that indicate whether a
 correlation coefficient is significantly different from zero.
-}
-\examples{
-
 }
