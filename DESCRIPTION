@@ -9,15 +9,15 @@ License: GPL3.0
 Encoding: UTF-8
 LazyData: true
 Imports:
-  car,
   stargazer,
+  emmeans
+Suggests:
+  car,
   survival,
   MASS,
   nlme,
   lme4,
   lmerTest,
-  emmeans,
   lmtest,
-  stats,
   Hmisc
 RoxygenNote: 7.1.0
