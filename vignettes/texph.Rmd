@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # Basic Usage
 
-`texph` creates LaTeX tables for post-hoc comparisons of groups or estimated marginal means compute from the package emmeans. If you want to use `texph()` to create a LaTeX table, all you need is an object that is created from a model-fitting function like `lm()`. 
+`texph` creates LaTeX tables for post-hoc comparisons of groups or estimated marginal means computed from the package emmeans. If you want to use `texph()` to create a LaTeX table, all you need is an object that is created from a model-fitting function like `lm()`. 
 
 ```{r, eval = TRUE, results = "asis"}
 library(textools)
