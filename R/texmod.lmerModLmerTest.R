@@ -84,7 +84,8 @@ texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"),
   if (pval == TRUE) coefsm[highsig, ncol(coefsm)] <- "<0.001"
   
   if (results == "summary" & addref == TRUE) {
-    modframe <- mod@frame[, -c(1, ncol(mod@frame)), drop = FALSE]
+    modframe <- mod@frame[, -c(1, ncol(mod@frame)- length(mod@flist) + 1:ncol(mod@frame)), 
+      drop = FALSE]
     facrows <- sapply(modframe, class)
     facrows <- sapply(facrows, function(x) x[[1]])
     facrows <- facrows %in% c("factor", "ordered")
