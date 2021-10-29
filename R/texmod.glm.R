@@ -1,3 +1,4 @@
+
 #' LaTeX tables for glm models
 #' 
 #' texmod method for models of class \code{glm}.
@@ -117,36 +118,38 @@ texmod.glm <- function(mod, results = c("summary", "Anova"), or = TRUE,
     facrows <- sapply(facrows, function(x) x[[1]])
     facrows <- facrows %in% c("factor", "ordered")
     facrows[1] <- FALSE
-    faclevs <- sapply(stats::model.frame(mod)[,facrows], 
-      function(x) levels(x)[1])
-    facrlabs <- paste0(names(faclevs), faclevs)
-    
-    facvec <- numeric()
-    for(i in 1:length(facrows)) {
-      if (facrows[i] == FALSE) {
-        facvec <- c(facvec, FALSE) 
-      } else {
-        facvec <- c(facvec, TRUE, rep(FALSE, 
-          length(levels(stats::model.frame(mod)[, i])) - 2))
+    if (sum(facrows) > 0) {
+      faclevs <- sapply(stats::model.frame(mod)[,facrows], 
+        function(x) levels(x)[1])
+      facrlabs <- paste0(names(faclevs), faclevs)
+      
+      facvec <- numeric()
+      for(i in 1:length(facrows)) {
+        if (facrows[i] == FALSE) {
+          facvec <- c(facvec, FALSE) 
+        } else {
+          facvec <- c(facvec, TRUE, rep(FALSE, 
+            length(levels(stats::model.frame(mod)[, i])) - 2))
+        }
       }
-    }
-    
-    if (intercept == FALSE) facvec <- facvec[-1]
-    
-    emptyrow <- c(0, rep(".", (ncol(coefsm) - 1)))
-    newrowpos <- grep(1, facvec)
-    j <- 0
-    for(i in 1:sum(facrows)) {
-      if (newrowpos[i] == 1) {
-        coefsm <- rbind(emptyrow, coefsm)
-        rownames(coefsm)[1] <- facrlabs[i]
-      } else {
-        coefsm <- rbind(coefsm[1:(newrowpos[i] + j - 1), , drop = FALSE], 
-          emptyrow,
-          coefsm[(newrowpos[i] + j):nrow(coefsm), , drop = FALSE])
-        rownames(coefsm)[newrowpos[i] + j] <- facrlabs[i]
+      
+      if (intercept == FALSE) facvec <- facvec[-1]
+      
+      emptyrow <- c(0, rep(".", (ncol(coefsm) - 1)))
+      newrowpos <- grep(1, facvec)
+      j <- 0
+      for(i in 1:sum(facrows)) {
+        if (newrowpos[i] == 1) {
+          coefsm <- rbind(emptyrow, coefsm)
+          rownames(coefsm)[1] <- facrlabs[i]
+        } else {
+          coefsm <- rbind(coefsm[1:(newrowpos[i] + j - 1), , drop = FALSE], 
+            emptyrow,
+            coefsm[(newrowpos[i] + j):nrow(coefsm), , drop = FALSE])
+          rownames(coefsm)[newrowpos[i] + j] <- facrlabs[i]
+        }
+        j <- j + 1
       }
-      j <- j + 1
     }
   }
   
