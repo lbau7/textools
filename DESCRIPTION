@@ -1,7 +1,7 @@
 Package: textools
 Type: Package
 Title: Generate nice looking LaTeX tables
-Version: 0.1.0
+Version: 0.1.1
 Author: Lukas Baumann 
 Maintainer: Lukas Baumann <baumann@imbi.uni-heidelberg.de>
 Description: Generate nice looking LaTeX tables for regression models and

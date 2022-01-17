@@ -89,34 +89,36 @@ texmod.lmerModLmerTest <- function(mod, results = c("summary", "Anova"),
     facrows <- sapply(modframe, class)
     facrows <- sapply(facrows, function(x) x[[1]])
     facrows <- facrows %in% c("factor", "ordered")
-    faclevs <- sapply(modframe[,facrows], function(x) levels(x)[1])
-    facrlabs <- paste0(names(faclevs), faclevs)
     
-    facvec <- numeric()
-    for(i in 1:length(facrows)) {
-      if (facrows[i] == FALSE) {
-        facvec <- c(facvec, FALSE) 
-      } else {
-        facvec <- c(facvec, TRUE, rep(FALSE, length(levels(modframe[, i])) - 2))
+    if (sum(facrows) > 0) {
+      faclevs <- sapply(modframe[,facrows], function(x) levels(x)[1])
+      facrlabs <- paste0(names(faclevs), faclevs)
+      facvec <- numeric()
+      for(i in 1:length(facrows)) {
+        if (facrows[i] == FALSE) {
+          facvec <- c(facvec, FALSE) 
+        } else {
+          facvec <- c(facvec, TRUE, rep(FALSE, length(levels(modframe[, i])) - 2))
+        }
       }
-    }
-    
-    if (intercept == TRUE) facvec <- c(0, facvec)
-    
-    emptyrow <- c(0, rep(".", (ncol(coefsm) - 1)))
-    newrowpos <- grep(1, facvec)
-    j <- 0
-    for(i in 1:sum(facrows)) {
-      if (newrowpos[i] == 1) {
-        coefsm <- rbind(emptyrow, coefsm)
-        rownames(coefsm)[1] <- facrlabs[i]
-      } else {
-        coefsm <- rbind(coefsm[1:(newrowpos[i] + j - 1), , drop = FALSE], 
-          emptyrow,
-          coefsm[(newrowpos[i] + j):nrow(coefsm), , drop = FALSE])
-        rownames(coefsm)[newrowpos[i] + j] <- facrlabs[i]
+      
+      if (intercept == TRUE) facvec <- c(0, facvec)
+      
+      emptyrow <- c(0, rep(".", (ncol(coefsm) - 1)))
+      newrowpos <- grep(1, facvec)
+      j <- 0
+      for(i in 1:sum(facrows)) {
+        if (newrowpos[i] == 1) {
+          coefsm <- rbind(emptyrow, coefsm)
+          rownames(coefsm)[1] <- facrlabs[i]
+        } else {
+          coefsm <- rbind(coefsm[1:(newrowpos[i] + j - 1), , drop = FALSE], 
+            emptyrow,
+            coefsm[(newrowpos[i] + j):nrow(coefsm), , drop = FALSE])
+          rownames(coefsm)[newrowpos[i] + j] <- facrlabs[i]
+        }
+        j <- j + 1
       }
-      j <- j + 1
     }
   }  
   
